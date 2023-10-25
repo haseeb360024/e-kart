@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { Link} from 'react-router-dom'
-import {removeFromCart} from '../redux/slices/cartSlice'
+import { Link,useNavigate} from 'react-router-dom'
+import {emptyCart, removeFromCart} from '../redux/slices/cartSlice'
 import { Row } from 'react-bootstrap'
 
 
@@ -10,12 +10,19 @@ function Cart() {
   const cartArray = useSelector((state)=>state.cartReducer)
   const dispatch = useDispatch()
   const [total,setTotal] = useState(0)
+
+  const navigate = useNavigate();
   const getCartTotal = ()=>{
     if(cartArray.length>0){
       setTotal(cartArray.map(item=>item.price).reduce((p1,p2)=>p1+p2))
     }else{
       setTotal(0)
     }
+  }
+  const handleCart = ()=>{
+    dispatch(emptyCart())
+    alert("order successfully placed... thank you for purchasing with us!!!")
+    navigate('/')
   }
   useEffect(()=>{
     getCartTotal()
